@@ -1,0 +1,237 @@
+{
+  "key": "TIE",
+  "name": "Tienda online · Almacén de Campo",
+  "description": "E-commerce de productos de campo (yerbas, mieles, quesos) con envíos a todo el país y retiro en el local.",
+  "owner": "laura",
+  "created": -42,
+  "agent": { "enabled": true, "tag": "IA", "from": "22:00", "until": "07:00" },
+  "members": [
+    { "user": "laura", "role": "owner", "joined": -42 },
+    { "user": "martin", "role": "editor", "joined": -42 },
+    { "user": "sofia", "role": "editor", "joined": -42 },
+    { "user": "diego", "role": "editor", "joined": -20 },
+    { "user": "lucia", "role": "viewer", "joined": -44.5 }
+  ],
+  "invitations": [
+    { "email": "lucia@almacendecampo.uy", "role": "viewer", "by": "laura", "at": -45, "status": "accepted" }
+  ],
+  "columns": [
+    { "k": "todo", "name": "Por hacer", "cat": "todo" },
+    { "k": "ia", "name": "IA", "cat": "todo", "autoTags": ["IA"] },
+    { "k": "doing", "name": "En curso", "cat": "in_progress" },
+    { "k": "review", "name": "En revisión", "cat": "in_progress" },
+    { "k": "done", "name": "Hecho", "cat": "done" }
+  ],
+  "tags": [
+    { "name": "Frontend", "color": "#3b82f6" },
+    { "name": "Backend", "color": "#6366f1" },
+    { "name": "Bug", "color": "#ef4444" },
+    { "name": "SEO", "color": "#84cc16" },
+    { "name": "Pagos", "color": "#f59e0b" },
+    { "name": "Contenido", "color": "#06b6d4" },
+    { "name": "IA", "color": "#a855f7" }
+  ],
+  "epics": [
+    { "k": "catalogo", "title": "Catálogo y búsqueda", "color": "#3b82f6", "created": -42, "d": "Que el cliente encuentre lo que busca en dos toques: categorías, filtros y búsqueda." },
+    { "k": "checkout", "title": "Checkout y pagos", "color": "#f59e0b", "created": -40, "d": "Compra en una sola página, con tarjeta, transferencia o efectivo al retirar." },
+    { "k": "envios", "title": "Envíos al interior", "color": "#14b8a6", "created": -30, "d": "Costo y plazo por departamento con la agencia de encomiendas, y retiro en el local." },
+    { "k": "lanzamiento", "title": "Lanzamiento y marketing", "color": "#ec4899", "created": -25, "d": "Contenido, SEO y campaña de apertura. **Fecha objetivo de lanzamiento:** en tres semanas." }
+  ],
+  "repos": [{ "k": "shop", "fullName": "estudio-nebula/almacen-de-campo-tienda", "defaultBranch": "main", "connected": -41 }],
+  "rules": [
+    {
+      "k": "pr-open",
+      "name": "Flujo de pull requests: PR abierto → En revisión",
+      "created": -40,
+      "by": "laura",
+      "trigger": { "type": "pr.opened" },
+      "actions": [{ "type": "move_to_column", "column": "review" }]
+    },
+    {
+      "k": "pr-merged",
+      "name": "Flujo de pull requests: PR mergeado → Hecho",
+      "created": -40,
+      "by": "laura",
+      "trigger": { "type": "pr.merged" },
+      "actions": [{ "type": "move_to_column", "column": "done" }]
+    },
+    {
+      "k": "branch",
+      "name": "Rama creada → En curso (salvo tareas del agente)",
+      "created": -38,
+      "by": "laura",
+      "trigger": { "type": "branch.created" },
+      "conditions": [{ "type": "tag", "op": "not_has", "tag": "IA" }],
+      "actions": [{ "type": "move_to_column", "column": "doing" }]
+    }
+  ],
+  "tasks": [
+    {
+      "n": 1, "t": "Ficha de producto con galería y variantes (peso, molienda)", "c": "done", "p": "high", "a": "martin", "e": "catalogo",
+      "tags": ["Frontend"], "est": 10, "created": -40, "done": -30,
+      "links": [{ "k": "pr", "repo": "shop", "n": 12, "title": "TIE-1: ficha de producto con variantes", "state": "merged", "branch": "tie-1-ficha-producto", "at": -31 }]
+    },
+    {
+      "n": 2, "t": "Importar el catálogo desde la planilla del proveedor", "c": "done", "p": "high", "a": "martin", "e": "catalogo",
+      "tags": ["Backend"], "est": 6, "created": -38, "done": -29,
+      "d": "Lucía nos pasa una planilla con código, nombre, presentación, precio y stock. Importación idempotente: si se carga dos veces, actualiza."
+    },
+    {
+      "n": 3, "t": "Filtros por categoría, precio y origen", "c": "done", "p": "medium", "a": "martin", "e": "catalogo",
+      "tags": ["Frontend"], "est": 6, "created": -35, "done": -25
+    },
+    {
+      "n": 4, "t": "Carrito que se mantiene entre celular y compu", "c": "done", "p": "medium", "a": "martin", "e": "checkout",
+      "tags": ["Frontend", "Backend"], "est": 8, "created": -30, "done": -20
+    },
+    {
+      "n": 5, "t": "Checkout en una sola página", "c": "review", "p": "high", "a": "martin", "e": "checkout",
+      "tags": ["Frontend", "Pagos"], "due": 2, "est": 12, "created": -12,
+      "d": "Datos de contacto, envío y pago en una sola pantalla. Guardar los datos del cliente para la próxima compra.\n\n### Criterios de aceptación\n- [x] Validación en línea de cada campo\n- [x] Resumen del pedido siempre visible en escritorio\n- [ ] El botón de pagar se bloquea al tocarlo (evita pedidos duplicados)",
+      "links": [
+        { "k": "branch", "repo": "shop", "name": "tie-5-checkout-una-pagina", "at": -9, "ahead": 12, "behind": 3 },
+        { "k": "pr", "repo": "shop", "n": 57, "title": "TIE-5: checkout en una sola página", "state": "in_review", "branch": "tie-5-checkout-una-pagina", "at": -2 }
+      ],
+      "com": [
+        { "u": "sofia", "at": -1.7, "b": "En celular el resumen del pedido queda muy abajo. ¿Lo hacemos plegable arriba, como en el boceto?" },
+        { "u": "martin", "at": -1.3, "b": "Dale, lo paso arriba y plegado por defecto." }
+      ]
+    },
+    {
+      "n": 6, "t": "Pago con tarjeta (Mercado Pago) y transferencia bancaria", "c": "doing", "p": "urgent", "a": "martin", "e": "checkout",
+      "tags": ["Pagos", "Backend"], "due": 1, "est": 14, "created": -12,
+      "att": [{ "file": "captura-error-checkout.png", "name": "error-sandbox-monto-minimo.png", "by": "martin", "at": -2.4, "size": 142336 }],
+      "links": [{ "k": "branch", "repo": "shop", "name": "tie-6-pagos", "at": -11, "ahead": 9, "behind": 1 }],
+      "com": [
+        { "u": "martin", "at": -2.4, "b": "En el sandbox rechaza las tarjetas de prueba con montos menores a $ 50. Adjunto la captura." },
+        { "u": "laura", "at": -2, "b": "Hablé con Lucía: el pedido mínimo va a ser $ 400, así que no nos afecta. Igual dejemos un mensaje de error más claro para el cliente." },
+        { "u": "martin", "at": -0.7, "b": "Hecho el mensaje. Me falta conciliar las transferencias: hoy lo cierro." }
+      ]
+    },
+    {
+      "n": 7, "t": "Costo y plazo de envío por departamento", "c": "doing", "p": "high", "a": "diego", "e": "envios",
+      "tags": ["Backend"], "due": 5, "est": 8, "created": -10,
+      "d": "Tabla de la agencia de encomiendas por departamento y peso. Montevideo y Canelones con envío propio en el día."
+    },
+    {
+      "n": 8, "t": "Retiro en el local con horario a elección", "c": "todo", "p": "medium", "a": "diego", "e": "envios",
+      "est": 4, "created": -9
+    },
+    {
+      "n": 9, "t": "Textos de las fichas de producto (40 productos)", "c": "doing", "p": "medium", "a": "sofia", "e": "lanzamiento",
+      "tags": ["Contenido", "SEO"], "due": 6, "est": 16, "created": -14,
+      "sub": [
+        { "t": "Yerbas y blends (12)", "c": "done", "est": 4, "done": -8 },
+        { "t": "Mieles y dulces (10)", "c": "done", "est": 4, "done": -4 },
+        { "t": "Quesos y fiambres (11)", "c": "doing", "est": 5 },
+        { "t": "Accesorios: mates, bombillas y termos (7)", "c": "todo", "est": 3 }
+      ]
+    },
+    {
+      "n": 10, "t": "Home con destacados de temporada", "c": "review", "p": "medium", "a": "sofia", "e": "lanzamiento",
+      "tags": ["Frontend"], "est": 6, "created": -8,
+      "att": [{ "file": "propuesta-home-tienda.png", "name": "propuesta-home-v2.png", "by": "sofia", "at": -5, "size": 238592 }],
+      "links": [{ "k": "pr", "repo": "shop", "n": 55, "title": "TIE-10: home con destacados", "state": "open", "branch": "tie-10-home-destacados", "at": -1, "author": "sofia-pereyra" }],
+      "com": [{ "u": "laura", "at": -4.5, "b": "A Lucía le gustó mucho la v2. Pide que el banner de primavera tenga la miel de pradera." }]
+    },
+    {
+      "n": 11, "t": "Meta tags y datos estructurados de productos", "c": "ia", "p": "medium", "e": "lanzamiento",
+      "tags": ["SEO", "IA"], "est": 4, "created": -5,
+      "d": "Para que Google muestre precio y disponibilidad en los resultados.\n\n- [ ] `title` y `description` por producto\n- [ ] JSON-LD de tipo Product con precio en UYU y stock\n- [ ] Sitemap con todas las fichas"
+    },
+    {
+      "n": 12, "t": "El botón \"Agregar al carrito\" no responde en Safari de iOS 16", "c": "ia", "p": "high",
+      "tags": ["Bug", "Frontend", "IA"], "created": -2,
+      "agent": { "status": "claimed", "branch": "claude/tie-12-safari-agregar-carrito", "at": -0.4 },
+      "d": "Reportado por dos clientes. En iOS 17 funciona. Sospecha: `structuredClone` no existe en Safari 15.3 y anteriores, y en 16 hay un polyfill a medias."
+    },
+    {
+      "n": 13, "t": "Corregir el redondeo de precios con descuento", "c": "done", "p": "medium",
+      "tags": ["Bug", "IA"], "created": -6, "done": -4.4,
+      "agent": { "status": "merged", "branch": "claude/tie-13-redondeo-descuento", "at": -5.6 },
+      "links": [{ "k": "pr", "repo": "shop", "n": 52, "title": "TIE-13: redondeo único al final del cálculo", "state": "merged", "branch": "claude/tie-13-redondeo-descuento", "at": -5.2, "author": "claude" }],
+      "com": [
+        { "u": "laura", "via": "Agente Claude (rutina)", "at": -5.2, "b": "PR #52 abierto (**easy**): el descuento se aplicaba sobre el precio con IVA y se redondeaba dos veces. Ahora se redondea una sola vez al final. Agregué tests para 10 %, 15 % y 2x1." }
+      ]
+    },
+    {
+      "n": 14, "t": "Mensajes de error del checkout en español", "c": "review", "p": "medium",
+      "tags": ["Frontend", "IA"], "created": -3,
+      "agent": { "status": "pr_open", "branch": "claude/tie-14-errores-checkout", "at": -1 },
+      "links": [{ "k": "pr", "repo": "shop", "n": 58, "title": "TIE-14: traduce los errores del checkout", "state": "open", "branch": "claude/tie-14-errores-checkout", "at": -0.6, "author": "claude" }],
+      "com": [
+        { "u": "laura", "via": "Agente Claude (rutina)", "at": -0.6, "b": "PR #58 abierto (**easy**): 14 mensajes traducidos, con el tono de la marca. Se mergea solo esta noche si los checks pasan." }
+      ]
+    },
+    {
+      "n": 15, "t": "Página de preguntas frecuentes", "c": "todo", "p": "low", "a": "sofia", "e": "lanzamiento",
+      "tags": ["Contenido"], "est": 4, "created": -7
+    },
+    {
+      "n": 16, "t": "Newsletter de lanzamiento con cupón de bienvenida", "c": "todo", "p": "medium", "a": "laura", "e": "lanzamiento",
+      "tags": ["Contenido"], "due": 9, "est": 3, "created": -6
+    },
+    {
+      "n": 17, "t": "Política de cambios y devoluciones", "c": "done", "p": "medium", "a": "laura", "e": "lanzamiento",
+      "tags": ["Contenido"], "est": 2, "created": -20, "done": -15
+    },
+    {
+      "n": 18, "t": "Stock en tiempo real desde el sistema del local", "c": "todo", "p": "high", "a": "diego", "e": "catalogo",
+      "tags": ["Backend"], "est": 16, "created": -11,
+      "d": "El local usa un sistema de caja que exporta el stock cada 15 minutos a un CSV en una carpeta compartida. Leerlo y actualizar el catálogo."
+    },
+    {
+      "n": 19, "t": "Sugerencias mientras escribís en el buscador", "c": "todo", "p": "low", "e": "catalogo",
+      "tags": ["Frontend"], "est": 5, "created": -15
+    },
+    {
+      "n": 20, "t": "Cupones de descuento por campaña", "c": "todo", "p": "medium", "e": "checkout",
+      "tags": ["Pagos"], "est": 6, "created": -13
+    },
+    {
+      "n": 21, "t": "Avisar por WhatsApp cuando el pedido sale", "c": "todo", "p": "low", "e": "envios",
+      "est": 4, "created": -9
+    },
+    {
+      "n": 22, "t": "Optimizar las fotos de productos (WebP)", "c": "ia", "p": "medium",
+      "tags": ["Frontend", "IA"], "created": -4,
+      "agent": { "status": "blocked" },
+      "com": [
+        { "u": "laura", "via": "Agente Claude (rutina)", "at": -1, "b": "**Bloqueada:** ¿las fotos originales están en el almacenamiento de producción o hay que pedírselas a Lucía? No encuentro la carpeta `/originales`." },
+        { "u": "laura", "at": -0.8, "b": "Están en el Drive de Lucía. Se las pido y las subo a `/originales` mañana." }
+      ]
+    },
+    {
+      "n": 23, "t": "Prueba de carga antes de la campaña de lanzamiento", "c": "todo", "p": "medium", "a": "diego",
+      "tags": ["Backend"], "est": 6, "created": -5
+    },
+    {
+      "n": 24, "t": "Página \"Nuestros productores\" con fotos y mapa", "c": "doing", "p": "medium", "a": "sofia", "e": "lanzamiento",
+      "tags": ["Contenido", "Frontend"], "est": 8, "created": -10
+    },
+    {
+      "n": 25, "t": "IVA por tipo de producto (10 % alimentos, 22 % el resto)", "c": "review", "p": "high", "e": "checkout",
+      "tags": ["Backend", "IA"], "created": -4,
+      "agent": { "status": "pr_open", "branch": "claude/tie-25-iva-por-producto", "at": -3 },
+      "links": [{ "k": "pr", "repo": "shop", "n": 54, "title": "TIE-25: IVA por tipo de producto", "state": "in_review", "branch": "claude/tie-25-iva-por-producto", "at": -1.5, "author": "claude" }],
+      "com": [
+        { "u": "laura", "via": "Agente Claude (rutina)", "at": -1.5, "b": "PR #54 abierto (**large**): cambia el cálculo de totales y agrega una migración. Necesita revisión humana antes del merge." },
+        { "u": "martin", "at": -1, "b": "Lo reviso mañana a primera hora, que toca el checkout." }
+      ]
+    }
+  ],
+  "runs": [
+    { "rule": "branch", "task": 6, "at": -11, "status": "success" },
+    { "rule": "pr-merged", "task": 13, "at": -4.4, "status": "success" },
+    { "rule": "pr-open", "task": 5, "at": -2, "status": "success" },
+    { "rule": "pr-open", "task": 25, "at": -1.5, "status": "success" },
+    { "rule": "pr-open", "task": 10, "at": -1, "status": "success" },
+    { "rule": "pr-open", "task": 14, "at": -0.6, "status": "success" },
+    { "rule": "branch", "task": 12, "at": -0.4, "status": "skipped", "reason": "No se cumple: No tiene el tag IA" }
+  ],
+  "agentPrs": [
+    { "n": 52, "repo": "shop", "branch": "claude/tie-13-redondeo-descuento", "title": "TIE-13: redondeo único al final del cálculo", "complexity": "easy", "status": "merged", "reason": "Mergeado dentro de la ventana (checks en verde)", "tasks": [13], "at": -5.2, "merged": -4.4 },
+    { "n": 54, "repo": "shop", "branch": "claude/tie-25-iva-por-producto", "title": "TIE-25: IVA por tipo de producto", "complexity": "large", "status": "waiting_review", "reason": "PR grande: espera revisión", "tasks": [25], "at": -1.5 },
+    { "n": 58, "repo": "shop", "branch": "claude/tie-14-errores-checkout", "title": "TIE-14: traduce los errores del checkout", "complexity": "easy", "status": "pending", "reason": "Fuera de la ventana de merge (22:00–07:00)", "tasks": [14], "at": -0.6 }
+  ]
+}

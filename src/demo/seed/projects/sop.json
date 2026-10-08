@@ -1,0 +1,102 @@
+{
+  "key": "SOP",
+  "name": "Soporte y mantenimiento",
+  "description": "Pedidos de soporte de los clientes del estudio. Los reportes de usuarios llegan solos desde el Portal de reportes y esperan aprobación antes de trabajarse.",
+  "owner": "laura",
+  "created": -90,
+  "members": [
+    { "user": "laura", "role": "owner", "joined": -90 },
+    { "user": "martin", "role": "editor", "joined": -90 },
+    { "user": "diego", "role": "editor", "joined": -90 },
+    { "user": "valentina", "role": "editor", "joined": -45 }
+  ],
+  "columns": [
+    { "k": "inbox", "name": "Entrada", "cat": "todo" },
+    { "k": "todo", "name": "Por hacer", "cat": "todo" },
+    { "k": "doing", "name": "En curso", "cat": "in_progress" },
+    { "k": "done", "name": "Resuelto", "cat": "done" }
+  ],
+  "tags": [
+    { "name": "Portal", "color": "#0ea5e9" },
+    { "name": "Bug", "color": "#ef4444" },
+    { "name": "Clínica", "color": "#a855f7" },
+    { "name": "Tienda", "color": "#f59e0b" },
+    { "name": "Infra", "color": "#64748b" }
+  ],
+  "rules": [
+    {
+      "k": "ack",
+      "name": "Acuse de recibo de reportes del portal",
+      "created": -24,
+      "by": "laura",
+      "trigger": { "type": "task.created" },
+      "conditions": [{ "type": "tag", "op": "has", "tag": "Portal" }],
+      "actions": [{ "type": "add_comment", "body": "📥 Recibimos el reporte {{task.key}}. Lo revisamos en las próximas 24 h hábiles." }]
+    },
+    {
+      "k": "resolved",
+      "name": "Resuelto → avisar en el informe semanal",
+      "created": -60,
+      "by": "laura",
+      "trigger": { "type": "task.moved", "to": "done" },
+      "actions": [{ "type": "add_comment", "body": "✅ Resuelto. Va en el informe semanal al cliente." }]
+    }
+  ],
+  "tasks": [
+    {
+      "n": 1, "t": "Pantalla en blanco al abrir \"Mis turnos\" en Android 9", "c": "inbox", "p": "high",
+      "tags": ["Portal", "Bug", "Clínica"], "created": -0.4, "via": "Portal de reportes", "review": { "status": "pending" },
+      "d": "**Reporte de usuario** (formulario del Portal)\n\n> Entro a Mis turnos y queda todo en blanco, tengo que cerrar la app. Me pasa desde ayer. Celular Samsung J7 con Android 9.\n\n- Usuario: paciente (no se comparten datos personales)\n- Versión de la app: 1.4.2\n- Navegador: Chrome 109",
+      "att": [{ "file": "reporte-pantalla-blanca.png", "name": "captura-del-usuario.png", "by": "laura", "at": -0.4, "size": 61440 }],
+      "com": [{ "rule": "ack", "at": -0.38, "b": "📥 Recibimos el reporte {{task.key}}. Lo revisamos en las próximas 24 h hábiles." }]
+    },
+    {
+      "n": 2, "t": "No llega el código de ingreso por SMS", "c": "inbox", "p": "medium",
+      "tags": ["Portal", "Bug", "Clínica"], "created": -1.1, "via": "Portal de reportes", "review": { "status": "pending" },
+      "d": "**Reporte de usuario** (formulario del Portal)\n\n> Pido el código para entrar y nunca me llega el mensaje. Probé tres veces.\n\n- Operador: no informado\n- Versión de la app: 1.4.2",
+      "com": [{ "rule": "ack", "at": -1.08, "b": "📥 Recibimos el reporte {{task.key}}. Lo revisamos en las próximas 24 h hábiles." }]
+    },
+    {
+      "n": 3, "t": "Pedido duplicado al tocar dos veces \"Pagar\"", "c": "todo", "p": "high", "a": "martin",
+      "tags": ["Portal", "Bug", "Tienda"], "created": -2, "via": "Portal de reportes", "review": { "status": "approved", "by": "laura", "at": -1.8 },
+      "d": "**Reporte de usuario** (formulario del Portal)\n\n> Toqué Pagar, no pasaba nada y lo toqué de nuevo. Me llegaron dos mails de confirmación y me cobraron dos veces.",
+      "com": [
+        { "rule": "ack", "at": -1.98, "b": "📥 Recibimos el reporte {{task.key}}. Lo revisamos en las próximas 24 h hábiles." },
+        { "u": "laura", "at": -1.8, "b": "Confirmado con Lucía: el cobro duplicado ya se devolvió. Martín, lo resolvemos junto con TIE-5 (bloquear el botón al tocarlo)." }
+      ]
+    },
+    {
+      "n": 4, "t": "Sugerencia: poder elegir el horario de entrega", "c": "inbox", "p": "low",
+      "tags": ["Portal", "Tienda"], "created": -1.6, "via": "Portal de reportes", "review": { "status": "pending" },
+      "d": "**Sugerencia de usuario** (formulario del Portal)\n\n> Estaría bueno elegir si me lo traen de mañana o de tarde, trabajo todo el día afuera.",
+      "com": [{ "rule": "ack", "at": -1.58, "b": "📥 Recibimos el reporte {{task.key}}. Lo revisamos en las próximas 24 h hábiles." }]
+    },
+    { "n": 5, "t": "Renovar certificados SSL (falló la renovación automática)", "c": "done", "p": "urgent", "a": "diego", "tags": ["Infra"], "est": 1, "created": -9, "done": -8.8 },
+    {
+      "n": 6, "t": "Backups diarios de la base de la tienda en otro proveedor", "c": "doing", "p": "high", "a": "diego",
+      "tags": ["Infra", "Tienda"], "est": 6, "created": -6,
+      "d": "Copia cifrada todas las noches a las 3:00, con retención de 30 días. Probar una restauración completa antes de darla por cerrada."
+    },
+    { "n": 7, "t": "Actualizar dependencias con vulnerabilidades conocidas", "c": "todo", "p": "medium", "a": "martin", "tags": ["Infra"], "est": 4, "created": -5 },
+    { "n": 8, "t": "Monitoreo de caídas con aviso por WhatsApp", "c": "todo", "p": "medium", "a": "diego", "tags": ["Infra"], "est": 5, "created": -10 },
+    { "n": 9, "t": "Exportar listado de pacientes atendidos a Excel", "c": "done", "p": "medium", "a": "martin", "tags": ["Clínica"], "est": 3, "created": -12, "done": -9 },
+    {
+      "n": 10, "t": "Listado de pedidos lento en el panel de la tienda", "c": "doing", "p": "medium", "a": "martin",
+      "tags": ["Bug", "Tienda"], "est": 3, "created": -3,
+      "com": [{ "u": "martin", "at": -0.6, "b": "Era la consulta sin índice por fecha. Con el índice bajó de 4 s a 120 ms. Mañana lo subo." }]
+    },
+    { "n": 11, "t": "Revisar los errores de la semana en el monitoreo", "c": "todo", "p": "medium", "a": "valentina", "due": 0, "est": 1, "created": -1 },
+    { "n": 12, "t": "Error al subir fotos de más de 5 MB en el panel", "c": "done", "p": "medium", "a": "martin", "tags": ["Bug", "Tienda"], "est": 2, "created": -7, "done": -6 },
+    { "n": 13, "t": "Cambiar el horario de atención en el pie del sitio", "c": "done", "p": "low", "a": "valentina", "tags": ["Clínica"], "est": 0.5, "created": -4, "done": -3.8 }
+  ],
+  "runs": [
+    { "rule": "resolved", "task": 9, "at": -9, "status": "success" },
+    { "rule": "resolved", "task": 5, "at": -8.8, "status": "success" },
+    { "rule": "resolved", "task": 12, "at": -6, "status": "success" },
+    { "rule": "resolved", "task": 13, "at": -3.8, "status": "success" },
+    { "rule": "ack", "task": 3, "at": -1.98, "status": "success" },
+    { "rule": "ack", "task": 4, "at": -1.58, "status": "success" },
+    { "rule": "ack", "task": 2, "at": -1.08, "status": "success" },
+    { "rule": "ack", "task": 1, "at": -0.38, "status": "success" }
+  ]
+}

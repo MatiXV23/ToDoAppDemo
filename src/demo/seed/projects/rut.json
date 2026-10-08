@@ -1,0 +1,35 @@
+{
+  "key": "RUT",
+  "name": "Rutas Delivery · app de repartidores",
+  "description": "App para repartidores de comercios de barrio: pedidos del día, orden de entregas y comprobante con foto.",
+  "owner": "tomas",
+  "created": -28,
+  "members": [{ "user": "tomas", "role": "owner", "joined": -28 }],
+  "invitations": [{ "email": "laura@estudionebula.uy", "role": "editor", "by": "tomas", "at": -0.6 }],
+  "columns": [
+    { "k": "todo", "name": "Por hacer", "cat": "todo" },
+    { "k": "doing", "name": "En curso", "cat": "in_progress" },
+    { "k": "review", "name": "En revisión", "cat": "in_progress" },
+    { "k": "done", "name": "Hecho", "cat": "done" }
+  ],
+  "tags": [
+    { "name": "App", "color": "#3b82f6" },
+    { "name": "Panel", "color": "#a855f7" },
+    { "name": "Mapas", "color": "#22c55e" }
+  ],
+  "tasks": [
+    { "n": 1, "t": "Login de repartidores con PIN", "c": "done", "a": "tomas", "tags": ["App"], "est": 4, "created": -26, "done": -20 },
+    { "n": 2, "t": "Mapa con los pedidos del día", "c": "done", "p": "high", "a": "tomas", "tags": ["App", "Mapas"], "est": 10, "created": -24, "done": -12 },
+    { "n": 3, "t": "Ordenar las entregas por cercanía", "c": "doing", "p": "high", "a": "tomas", "tags": ["Mapas"], "est": 12, "created": -15, "due": 5 },
+    { "n": 4, "t": "Foto del comprobante de entrega", "c": "doing", "a": "tomas", "tags": ["App"], "est": 5, "created": -10 },
+    { "n": 5, "t": "Funcionar sin conexión en zonas sin señal", "c": "todo", "p": "high", "tags": ["App"], "est": 16, "created": -9 },
+    { "n": 6, "t": "Panel de despacho para el comercio", "c": "todo", "p": "medium", "tags": ["Panel"], "est": 12, "created": -8 },
+    { "n": 7, "t": "Avisar al cliente cuando el repartidor sale", "c": "todo", "p": "medium", "tags": ["App"], "est": 4, "created": -6 },
+    { "n": 8, "t": "Reporte de kilómetros por repartidor", "c": "todo", "p": "low", "tags": ["Panel"], "est": 6, "created": -5 },
+    { "n": 9, "t": "Prueba en la calle con 3 repartidores", "c": "todo", "p": "high", "a": "tomas", "due": 8, "est": 8, "created": -3 },
+    {
+      "n": 10, "t": "Revisar la arquitectura con el Estudio Nébula", "c": "todo", "p": "medium", "a": "tomas", "est": 2, "created": -0.7,
+      "d": "Invité a Laura para que nos ayude a definir cómo sincronizar los pedidos cuando el repartidor vuelve a tener señal."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+# dependencias
+/node_modules
+
+# build de Next
+/.next/
+/out/
+next-env.d.ts
+*.tsbuildinfo
+
+# salidas de los scripts de verificación y capturas
+/verify-output/
+/.video-tmp/
+
+# sistema
+.DS_Store
+*.log
+.env*

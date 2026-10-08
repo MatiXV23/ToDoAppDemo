@@ -1,0 +1,369 @@
+{
+  "key": "AGE",
+  "name": "Agenda médica · Policlínica Las Acacias",
+  "description": "App web y mobile para que los pacientes reserven, reprogramen y cancelen turnos, con recordatorios por WhatsApp y un panel para recepción.",
+  "owner": "laura",
+  "created": -55,
+  "sprintsEnabled": true,
+  "members": [
+    { "user": "laura", "role": "owner", "joined": -55 },
+    { "user": "martin", "role": "editor", "joined": -55 },
+    { "user": "sofia", "role": "editor", "joined": -55 },
+    { "user": "diego", "role": "editor", "joined": -54 },
+    { "user": "valentina", "role": "editor", "joined": -40 },
+    { "user": "andres", "role": "viewer", "joined": -59.5 }
+  ],
+  "invitations": [
+    { "email": "andres.cabrera@lasacacias.com.uy", "role": "viewer", "by": "laura", "at": -60, "status": "accepted" }
+  ],
+  "columns": [
+    { "k": "todo", "name": "Por hacer", "cat": "todo" },
+    { "k": "doing", "name": "En curso", "cat": "in_progress" },
+    { "k": "review", "name": "En revisión", "cat": "in_progress" },
+    { "k": "qa", "name": "QA", "cat": "in_progress" },
+    { "k": "done", "name": "Hecho", "cat": "done" }
+  ],
+  "tags": [
+    { "name": "Frontend", "color": "#3b82f6" },
+    { "name": "Backend", "color": "#6366f1" },
+    { "name": "Bug", "color": "#ef4444" },
+    { "name": "UX", "color": "#ec4899" },
+    { "name": "Mobile", "color": "#14b8a6" },
+    { "name": "WhatsApp", "color": "#22c55e" },
+    { "name": "Pagos", "color": "#f59e0b" }
+  ],
+  "epics": [
+    {
+      "k": "login",
+      "title": "Acceso de pacientes",
+      "color": "#64748b",
+      "status": "done",
+      "created": -55,
+      "d": "Ingreso sin contraseña: el paciente pone su email o celular y recibe un código de 6 dígitos."
+    },
+    {
+      "k": "reserva",
+      "title": "Reserva de turnos online",
+      "color": "#3b82f6",
+      "created": -40,
+      "d": "Que un paciente pueda reservar un turno en menos de un minuto desde el celular, sin llamar a la policlínica.\n\n**Meta:** 40 % de los turnos reservados online a los tres meses del lanzamiento."
+    },
+    {
+      "k": "recepcion",
+      "title": "Panel de recepción",
+      "color": "#a855f7",
+      "created": -35,
+      "d": "Vista de escritorio para recepción: agenda del día, llegadas, sobreturnos y ausentismo."
+    },
+    {
+      "k": "recordatorios",
+      "title": "Recordatorios por WhatsApp",
+      "color": "#22c55e",
+      "created": -20,
+      "d": "Recordatorio automático 24 h antes del turno, con opción de confirmar o cancelar respondiendo el mensaje. Objetivo: bajar el ausentismo del 18 % actual a menos del 10 %."
+    },
+    {
+      "k": "pagos",
+      "title": "Cobro de consultas y señas",
+      "color": "#f59e0b",
+      "created": -15,
+      "d": "Seña online para primeras consultas con especialistas, para reducir los turnos que se reservan y no se usan."
+    }
+  ],
+  "sprints": [
+    { "k": "s4", "name": "Sprint 4", "goal": "Base de datos de turnos y diseño del flujo de reserva", "status": "completed", "start": -24, "end": -11 },
+    { "k": "s5", "name": "Sprint 5", "goal": "Reserva online lista para la prueba piloto con pacientes", "status": "active", "start": -10, "end": 4 },
+    { "k": "s6", "name": "Sprint 6", "goal": "Recordatorios automáticos y cobro de señas", "status": "planned", "start": 4, "end": 18 }
+  ],
+  "repos": [
+    { "k": "web", "fullName": "estudio-nebula/agenda-acacias-web", "defaultBranch": "main", "connected": -50 },
+    { "k": "api", "fullName": "estudio-nebula/agenda-acacias-api", "defaultBranch": "main", "connected": -50 }
+  ],
+  "rules": [
+    {
+      "k": "pr-open",
+      "name": "PR abierto → En revisión",
+      "created": -45,
+      "by": "laura",
+      "trigger": { "type": "pr.opened" },
+      "actions": [{ "type": "move_to_column", "column": "review" }]
+    },
+    {
+      "k": "pr-merged",
+      "name": "PR mergeado → QA",
+      "created": -45,
+      "by": "laura",
+      "trigger": { "type": "pr.merged" },
+      "actions": [
+        { "type": "move_to_column", "column": "qa" },
+        { "type": "add_comment", "body": "Mergeado en {{repo}} (#{{pr.number}}). Ya está en staging para probar." }
+      ]
+    },
+    {
+      "k": "qa-assign",
+      "name": "Al pasar a QA, asignar a Valentina",
+      "created": -38,
+      "by": "laura",
+      "trigger": { "type": "task.moved", "to": "qa" },
+      "conditions": [{ "type": "is_subtask", "value": false }],
+      "actions": [{ "type": "assign", "user": "valentina" }]
+    },
+    {
+      "k": "bug-urgent",
+      "name": "Bug urgente → asignar a Diego",
+      "created": -30,
+      "by": "laura",
+      "trigger": { "type": "task.created" },
+      "conditions": [
+        { "type": "tag", "op": "has", "tag": "Bug" },
+        { "type": "priority", "op": "in", "values": ["urgent", "high"] }
+      ],
+      "actions": [{ "type": "assign", "user": "diego" }]
+    },
+    {
+      "k": "due-warning",
+      "name": "Aviso 24 h antes del vencimiento",
+      "created": -28,
+      "by": "laura",
+      "trigger": { "type": "task.due_soon", "hoursBefore": 24 },
+      "actions": [{ "type": "add_comment", "body": "⏰ {{task.key}} vence el {{due_date}}. Si no llega, avisá en la daily." }]
+    }
+  ],
+  "tasks": [
+    {
+      "n": 1, "t": "Login de pacientes con email o celular y código", "c": "done", "p": "high", "a": "martin", "e": "login",
+      "tags": ["Frontend", "Backend"], "est": 8, "created": -50, "done": -36,
+      "d": "El paciente ingresa su email o celular y recibe un código de 6 dígitos que vence a los 10 minutos.\n\n### Criterios de aceptación\n- [x] Funciona con email y con celular uruguayo (09X XXX XXX)\n- [x] Máximo 5 intentos por código\n- [x] El código no se reutiliza"
+    },
+    {
+      "n": 2, "t": "Recuperar acceso cuando cambia el número de celular", "c": "done", "p": "medium", "a": "diego", "e": "login",
+      "tags": ["Backend"], "est": 6, "created": -48, "done": -33
+    },
+    {
+      "n": 3, "t": "Pantalla de bienvenida y onboarding", "c": "done", "p": "medium", "a": "sofia", "e": "login",
+      "tags": ["UX", "Mobile"], "est": 5, "created": -47, "done": -34
+    },
+    {
+      "n": 4, "t": "Modelo de datos de turnos, profesionales y agendas", "c": "done", "p": "high", "a": "diego", "e": "reserva", "s": "s4",
+      "tags": ["Backend"], "est": 10, "created": -26, "done": -19,
+      "d": "Entidades: profesional, especialidad, sede, agenda (bloques semanales), excepción (feriados, licencias) y turno.\n\nLos bloques se generan a demanda: no guardamos un registro por cada turno libre.",
+      "links": [
+        { "k": "branch", "repo": "api", "name": "age-4-modelo-turnos", "at": -25, "state": "deleted" },
+        { "k": "pr", "repo": "api", "n": 18, "title": "AGE-4: modelo de turnos, agendas y excepciones", "state": "merged", "branch": "age-4-modelo-turnos", "at": -21, "author": "diego-fernandez" }
+      ]
+    },
+    {
+      "n": 5, "t": "Endpoint de disponibilidad por especialidad y sede", "c": "done", "p": "high", "a": "diego", "e": "reserva", "s": "s4",
+      "tags": ["Backend"], "est": 8, "created": -25, "done": -14,
+      "links": [
+        { "k": "pr", "repo": "api", "n": 21, "title": "AGE-5: GET /disponibilidad con filtros por sede", "state": "merged", "branch": "age-5-disponibilidad", "at": -16, "author": "diego-fernandez" }
+      ]
+    },
+    {
+      "n": 6, "t": "Diseño del flujo de reserva para celular", "c": "done", "p": "high", "a": "sofia", "e": "reserva", "s": "s4",
+      "tags": ["UX", "Mobile"], "est": 12, "created": -25, "done": -16,
+      "d": "Cuatro pasos: especialidad → profesional → día y hora → confirmación. Todo con una mano y sin teclado salvo para buscar.",
+      "att": [{ "file": "boceto-reserva-turno.png", "name": "boceto-reserva-turno.png", "by": "sofia", "at": -18, "size": 184320 }],
+      "com": [
+        { "u": "laura", "at": -17.5, "b": "Me encanta que el paso de la hora muestre primero 'Lo antes posible'. Es lo que más piden en recepción." },
+        { "u": "laura", "at": -17, "b": "Lo vi con Andrés: les queda muy claro. Solo pide que se vea la sede en todos los pasos, porque hay pacientes que confunden Centro con Cordón." },
+        { "u": "sofia", "at": -16.5, "b": "Buenísimo. Agregué la sede arriba como chip fijo y actualicé el boceto." }
+      ]
+    },
+    {
+      "n": 7, "t": "Listado de especialidades con buscador", "c": "done", "p": "medium", "a": "martin", "e": "reserva", "s": "s4",
+      "tags": ["Frontend"], "est": 6, "created": -22, "done": -12,
+      "links": [
+        { "k": "pr", "repo": "web", "n": 34, "title": "AGE-7: listado de especialidades con búsqueda", "state": "merged", "branch": "age-7-especialidades", "at": -13 }
+      ]
+    },
+    {
+      "n": 8, "t": "Agenda del día para recepción (vista de lista)", "c": "done", "p": "medium", "a": "martin", "e": "recepcion", "s": "s4",
+      "tags": ["Frontend"], "est": 8, "created": -21, "done": -11.5
+    },
+    {
+      "n": 9, "t": "Selector de fecha y horario disponible", "c": "review", "p": "high", "a": "martin", "e": "reserva", "s": "s5",
+      "tags": ["Frontend", "Mobile"], "due": 2, "est": 10, "created": -9.5,
+      "d": "Calendario mensual con los días sin turnos deshabilitados y, debajo, los horarios del día elegido agrupados en mañana y tarde.\n\n### Criterios de aceptación\n- [x] Los días sin disponibilidad no se pueden tocar\n- [x] Muestra bloques de 15 o 30 minutos según la especialidad\n- [ ] Estado vacío con la opción de anotarse en la lista de espera\n- [ ] Funciona en pantallas de 320 px de ancho",
+      "sub": [
+        { "t": "Calendario con días sin disponibilidad deshabilitados", "c": "done", "est": 4, "done": -6 },
+        { "t": "Bloques horarios de 15 y 30 minutos", "c": "done", "est": 3, "done": -4 },
+        { "t": "Estado vacío cuando no hay horarios", "c": "doing", "est": 2 }
+      ],
+      "links": [
+        { "k": "branch", "repo": "web", "name": "age-9-selector-fecha-horario", "at": -8, "ahead": 7, "behind": 2 },
+        { "k": "commit", "repo": "web", "sha": "4f2a9c1", "msg": "AGE-9: calendario con días deshabilitados", "at": -6 },
+        { "k": "commit", "repo": "web", "sha": "b81d3e0", "msg": "AGE-9: agrupa horarios en mañana y tarde", "at": -3 },
+        { "k": "pr", "repo": "web", "n": 41, "title": "AGE-9: selector de fecha y horario", "state": "in_review", "branch": "age-9-selector-fecha-horario", "at": -1.8 }
+      ],
+      "com": [
+        { "u": "sofia", "at": -1.4, "b": "Lo probé en un iPhone SE: el calendario entra justo. ¿Podemos achicar un poco los números de los días?" },
+        { "u": "martin", "at": -1.1, "b": "Listo, bajé a 14 px y quedó bien en pantallas chicas. Ya está en el PR." },
+        { "u": "laura", "at": -0.4, "b": "Revisé el PR: solo falta el estado vacío. Si llega mañana lo metemos en la prueba piloto del jueves." }
+      ]
+    },
+    {
+      "n": 10, "t": "Confirmación de reserva con resumen y política de cancelación", "c": "doing", "p": "high", "a": "sofia", "e": "reserva", "s": "s5",
+      "tags": ["UX", "Frontend"], "due": 3, "est": 6, "created": -8.5,
+      "d": "Pantalla final con profesional, sede, fecha y hora, qué traer (orden, cédula) y hasta cuándo se puede cancelar sin costo."
+    },
+    {
+      "n": 11, "t": "Bloquear el horario mientras el paciente confirma (5 min)", "c": "doing", "p": "urgent", "a": "diego", "e": "reserva", "s": "s5",
+      "tags": ["Backend"], "due": 1, "est": 8, "created": -8,
+      "d": "Hoy dos pacientes pueden reservar el mismo horario si confirman casi al mismo tiempo.\n\nAl elegir el horario se reserva de forma provisoria por 5 minutos; si no confirma, se libera solo.",
+      "links": [
+        { "k": "branch", "repo": "api", "name": "age-11-bloqueo-provisorio", "at": -2.5, "ahead": 5, "behind": 0 },
+        { "k": "commit", "repo": "api", "sha": "9c07e5b", "msg": "AGE-11: reserva provisoria con vencimiento", "at": -1.2, "author": "diego-fernandez" }
+      ],
+      "com": [
+        { "u": "valentina", "at": -3.2, "b": "Lo pude reproducir en staging con dos navegadores: los dos quedaron con el turno de las 10:30 con la Dra. Olivera." },
+        { "u": "diego", "at": -2.6, "b": "Voy con una reserva provisoria con vencimiento de 5 minutos. Mañana subo el PR." },
+        { "rule": "due-warning", "at": -0.3, "b": "⏰ {{task.key}} vence el {{due_date}}. Si no llega, avisá en la daily." }
+      ]
+    },
+    {
+      "n": 12, "t": "El buscador no encuentra especialidades con tilde", "c": "qa", "p": "high", "a": "valentina", "e": "reserva", "s": "s5",
+      "tags": ["Bug", "Frontend"], "est": 2, "created": -6,
+      "d": "Buscando `cardiologia` (sin tilde) no aparece **Cardiología**. Lo mismo con pediatría y traumatología.\n\n**Pasos:** Reservar turno → buscar \"cardiologia\" → \"No encontramos resultados\".",
+      "links": [
+        { "k": "pr", "repo": "web", "n": 39, "title": "AGE-12: búsqueda sin distinguir tildes", "state": "merged", "branch": "age-12-busqueda-tildes", "at": -1.6 }
+      ],
+      "com": [
+        { "rule": "pr-merged", "at": -1.5, "b": "Mergeado en estudio-nebula/agenda-acacias-web (#39). Ya está en staging para probar." },
+        { "u": "valentina", "at": -0.5, "b": "Probado en Chrome y Safari: ahora encuentra *cardiologia*, *pediatria* y *traumatologia*. Me falta Android y lo paso a Hecho." }
+      ]
+    },
+    {
+      "n": 13, "t": "Mostrar profesionales con foto, especialidad y próximo turno", "c": "todo", "p": "medium", "a": "martin", "e": "reserva", "s": "s5",
+      "tags": ["Frontend"], "due": 4, "est": 6, "created": -9
+    },
+    {
+      "n": 14, "t": "Email de confirmación con el turno para agregar al calendario", "c": "todo", "p": "medium", "a": "diego", "e": "reserva", "s": "s5",
+      "tags": ["Backend"], "due": 4, "est": 5, "created": -9,
+      "d": "Adjuntar un archivo .ics para que el turno se agregue al calendario del celular con un toque."
+    },
+    {
+      "n": 15, "t": "Panel de recepción: marcar llegada del paciente", "c": "doing", "p": "medium", "a": "martin", "e": "recepcion", "s": "s5",
+      "tags": ["Frontend"], "est": 5, "created": -7
+    },
+    {
+      "n": 16, "t": "Prueba de usabilidad con 5 pacientes", "c": "todo", "p": "high", "a": "sofia", "e": "reserva", "s": "s5",
+      "tags": ["UX"], "due": 3, "est": 6, "created": -10,
+      "d": "Sesiones de 20 minutos en la sede Centro. Tarea: reservar un turno de clínica general para la semana que viene.\n\nMedimos: tiempo hasta confirmar, errores y dudas en voz alta.",
+      "sub": [
+        { "t": "Guion de la sesión y consentimiento", "c": "done", "est": 2, "done": -5 },
+        { "t": "Informe con hallazgos y prioridades", "c": "todo", "est": 3 }
+      ],
+      "com": [
+        { "u": "laura", "at": -2.2, "b": "Andrés consiguió 5 pacientes voluntarios para el jueves de 10 a 12 en la sede Centro. 🙌" },
+        { "u": "sofia", "at": -2, "b": "¡Genial! Llevo el celular de pruebas y grabo solo la pantalla." }
+      ]
+    },
+    {
+      "n": 17, "t": "Reprogramar un turno desde la app", "c": "done", "p": "medium", "a": "martin", "e": "reserva", "s": "s5",
+      "tags": ["Frontend"], "est": 6, "created": -10, "done": -3,
+      "links": [
+        { "k": "pr", "repo": "web", "n": 37, "title": "AGE-17: reprogramar turno", "state": "merged", "branch": "age-17-reprogramar", "at": -4 }
+      ]
+    },
+    {
+      "n": 18, "t": "Validar cédula uruguaya (dígito verificador)", "c": "done", "p": "medium", "a": "diego", "s": "s5",
+      "tags": ["Backend"], "est": 3, "created": -9, "done": -5,
+      "links": [
+        { "k": "pr", "repo": "api", "n": 26, "title": "AGE-18: valida dígito verificador de la cédula", "state": "merged", "branch": "age-18-validar-ci", "at": -5.5, "author": "diego-fernandez" }
+      ]
+    },
+    {
+      "n": 19, "t": "Accesibilidad: contraste y tamaño de los botones", "c": "review", "p": "medium", "a": "sofia", "e": "reserva", "s": "s5",
+      "tags": ["UX", "Mobile"], "est": 4, "created": -5,
+      "links": [
+        { "k": "pr", "repo": "web", "n": 42, "title": "AGE-19: contraste AA y áreas de toque de 44 px", "state": "open", "branch": "age-19-accesibilidad", "at": -0.9, "author": "sofia-pereyra" }
+      ]
+    },
+    {
+      "n": 20, "t": "Error 500 al cancelar un turno que ya estaba cancelado", "c": "done", "p": "high", "a": "diego", "s": "s5",
+      "tags": ["Bug", "Backend"], "est": 2, "created": -4, "done": -2,
+      "links": [
+        { "k": "pr", "repo": "api", "n": 29, "title": "AGE-20: cancelar dos veces devuelve 409", "state": "merged", "branch": "age-20-cancelar-dos-veces", "at": -2.3, "author": "diego-fernandez" }
+      ]
+    },
+    {
+      "n": 21, "t": "Historial de turnos del paciente", "c": "todo", "p": "low", "a": null, "e": "reserva", "s": "s5",
+      "tags": ["Frontend"], "est": 5, "created": -6
+    },
+    {
+      "n": 22, "t": "Plantillas de recordatorio aprobadas por WhatsApp Business", "c": "todo", "p": "high", "a": "laura", "e": "recordatorios", "s": "s6",
+      "tags": ["WhatsApp"], "est": 4, "created": -6,
+      "d": "Meta tarda hasta 48 h en aprobar cada plantilla, así que conviene mandarlas antes de empezar el sprint.\n\n**Texto propuesto:**\n> Hola {{nombre}}, te recordamos tu turno con {{profesional}} el {{fecha}} a las {{hora}} en la sede {{sede}}. Respondé *CONFIRMAR* o *CANCELAR*."
+    },
+    {
+      "n": 23, "t": "Envío automático del recordatorio 24 h antes del turno", "c": "todo", "p": "high", "a": "diego", "e": "recordatorios", "s": "s6",
+      "tags": ["WhatsApp", "Backend"], "est": 8, "created": -6,
+      "sub": [
+        { "t": "Cola de envíos con reintentos", "c": "todo", "est": 3 },
+        { "t": "Registrar entregado / leído / fallido", "c": "todo", "est": 2 },
+        { "t": "No enviar a pacientes que pidieron no recibir mensajes", "c": "todo", "est": 1 }
+      ]
+    },
+    {
+      "n": 24, "t": "Responder CANCELAR libera el turno", "c": "todo", "p": "medium", "a": "diego", "e": "recordatorios", "s": "s6",
+      "tags": ["WhatsApp", "Backend"], "est": 6, "created": -5
+    },
+    {
+      "n": 25, "t": "Seña con Mercado Pago para primeras consultas", "c": "todo", "p": "medium", "a": "martin", "e": "pagos", "s": "s6",
+      "tags": ["Pagos"], "est": 12, "created": -5
+    },
+    {
+      "n": 26, "t": "Reporte semanal de ausentismo para la dirección", "c": "todo", "p": "low", "a": "martin", "e": "recepcion", "s": "s6",
+      "tags": ["Frontend"], "est": 6, "created": -4,
+      "att": [{ "file": "grafico-turnos-semana.png", "name": "referencia-reporte-ausentismo.png", "by": "sofia", "at": -3.5, "size": 96256 }],
+      "d": "La dirección hoy arma este gráfico a mano en una planilla todos los lunes. Adjunto la referencia que usan."
+    },
+    {
+      "n": 27, "t": "Definir con la policlínica la política de cancelación", "c": "todo", "p": "medium", "a": "laura", "e": "pagos", "s": "s6",
+      "est": 2, "created": -4
+    },
+    {
+      "n": 28, "t": "Lista de espera cuando no hay turnos", "c": "todo", "p": "medium", "a": null, "e": "reserva",
+      "tags": ["Backend", "Frontend"], "est": 10, "created": -12
+    },
+    {
+      "n": 29, "t": "Exportar la agenda del día a PDF para imprimir", "c": "todo", "p": "medium", "e": "recepcion",
+      "tags": ["Frontend"], "est": 3, "created": -8,
+      "d": "Recepción de la sede Cordón todavía trabaja con la agenda impresa. Una hoja A4 por profesional."
+    },
+    {
+      "n": 30, "t": "Recordatorio de indicaciones previas (ayuno, órdenes)", "c": "todo", "p": "medium", "e": "recordatorios",
+      "tags": ["WhatsApp"], "est": 4, "created": -7
+    },
+    {
+      "n": 31, "t": "Encuesta de satisfacción después de la consulta", "c": "todo", "p": "low", "e": "recordatorios",
+      "tags": ["WhatsApp"], "est": 5, "created": -11
+    },
+    {
+      "n": 32, "t": "Integración con Google Calendar para profesionales", "c": "todo", "p": "low",
+      "tags": ["Backend"], "est": 12, "created": -14
+    },
+    {
+      "n": 33, "t": "Modo oscuro en la app de pacientes", "c": "todo", "p": "low",
+      "tags": ["UX", "Mobile"], "est": 6, "created": -15
+    },
+    {
+      "n": 34, "t": "Videoconsulta para controles de rutina", "c": "todo", "p": "low",
+      "est": 24, "created": -20,
+      "d": "Idea a validar con la dirección: controles de crónicos por videollamada, con el mismo flujo de reserva."
+    }
+  ],
+  "runs": [
+    { "rule": "pr-merged", "task": 18, "at": -5.5, "status": "success", "changed": false },
+    { "rule": "pr-merged", "task": 17, "at": -4, "status": "success", "changed": false },
+    { "rule": "bug-urgent", "task": 20, "at": -4, "status": "success" },
+    { "rule": "pr-merged", "task": 20, "at": -2.3, "status": "success", "changed": false },
+    { "rule": "pr-open", "task": 9, "at": -1.8, "status": "success" },
+    { "rule": "pr-merged", "task": 12, "at": -1.5, "status": "success" },
+    { "rule": "qa-assign", "task": 12, "at": -1.5, "status": "success" },
+    { "rule": "pr-open", "task": 19, "at": -0.9, "status": "success" },
+    { "rule": "due-warning", "task": 11, "at": -0.3, "status": "success" },
+    { "rule": "bug-urgent", "task": 13, "at": -9, "status": "skipped", "reason": "No se cumple: Tiene el tag Bug; Prioridad es Urgente, Alta" }
+  ]
+}

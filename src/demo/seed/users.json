@@ -1,0 +1,10 @@
+[
+  { "key": "laura", "name": "Laura Benítez", "email": "laura@estudionebula.uy", "created": -210 },
+  { "key": "martin", "name": "Martín Sosa", "email": "martin@estudionebula.uy", "created": -200 },
+  { "key": "sofia", "name": "Sofía Pereyra", "email": "sofia@estudionebula.uy", "created": -185 },
+  { "key": "diego", "name": "Diego Fernández", "email": "diego@estudionebula.uy", "created": -170 },
+  { "key": "valentina", "name": "Valentina Ruiz", "email": "valentina@estudionebula.uy", "created": -120 },
+  { "key": "andres", "name": "Andrés Cabrera", "email": "andres.cabrera@lasacacias.com.uy", "created": -60 },
+  { "key": "lucia", "name": "Lucía Martínez", "email": "lucia@almacendecampo.uy", "created": -45 },
+  { "key": "tomas", "name": "Tomás Acosta", "email": "tomas@rutasdelivery.uy", "created": -32 }
+]

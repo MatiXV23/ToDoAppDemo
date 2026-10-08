@@ -1,0 +1,54 @@
+{
+  "key": "COOP",
+  "name": "Sitio web · Cooperativa Agraria del Litoral",
+  "description": "Rediseño del sitio institucional: servicios a socios, noticias, precios de referencia y formulario de contacto por área.",
+  "owner": "laura",
+  "created": -70,
+  "members": [
+    { "user": "laura", "role": "owner", "joined": -70 },
+    { "user": "sofia", "role": "editor", "joined": -70 },
+    { "user": "valentina", "role": "editor", "joined": -50 }
+  ],
+  "columns": [
+    { "k": "todo", "name": "Por hacer", "cat": "todo" },
+    { "k": "doing", "name": "En curso", "cat": "in_progress" },
+    { "k": "client", "name": "Esperando al cliente", "cat": "in_progress" },
+    { "k": "done", "name": "Publicado", "cat": "done" }
+  ],
+  "tags": [
+    { "name": "Contenido", "color": "#06b6d4" },
+    { "name": "Diseño", "color": "#ec4899" },
+    { "name": "SEO", "color": "#84cc16" },
+    { "name": "Formulario", "color": "#f97316" }
+  ],
+  "epics": [
+    { "k": "inst", "title": "Contenido institucional", "color": "#22c55e", "status": "done", "created": -68 },
+    { "k": "news", "title": "Noticias y precios de referencia", "color": "#3b82f6", "created": -40 }
+  ],
+  "repos": [{ "k": "site", "fullName": "estudio-nebula/coop-litoral-sitio", "defaultBranch": "main", "connected": -66 }],
+  "tasks": [
+    { "n": 1, "t": "Relevamiento de contenidos con cada área", "c": "done", "a": "laura", "e": "inst", "tags": ["Contenido"], "est": 6, "created": -68, "done": -60 },
+    { "n": 2, "t": "Mapa del sitio y arquitectura de navegación", "c": "done", "a": "sofia", "e": "inst", "tags": ["Diseño"], "est": 5, "created": -66, "done": -58 },
+    { "n": 3, "t": "Diseño de la home y páginas internas", "c": "done", "p": "high", "a": "sofia", "e": "inst", "tags": ["Diseño"], "est": 16, "created": -62, "done": -45 },
+    { "n": 4, "t": "Páginas de servicios a socios (insumos, asistencia técnica, seguros)", "c": "done", "a": "sofia", "e": "inst", "tags": ["Contenido"], "est": 10, "created": -55, "done": -38 },
+    { "n": 5, "t": "Historia de la cooperativa con línea de tiempo", "c": "done", "p": "low", "a": "sofia", "e": "inst", "tags": ["Contenido", "Diseño"], "est": 6, "created": -50, "done": -36 },
+    { "n": 6, "t": "Optimizar velocidad de carga (imágenes y fuentes)", "c": "done", "a": "valentina", "tags": ["SEO"], "est": 4, "created": -40, "done": -30 },
+    { "n": 7, "t": "Redirecciones desde las URLs del sitio viejo", "c": "done", "p": "high", "a": "valentina", "tags": ["SEO"], "est": 3, "created": -35, "done": -29 },
+    { "n": 8, "t": "Tabla de precios de referencia (granos y ganado)", "c": "done", "a": "sofia", "e": "news", "tags": ["Contenido"], "est": 6, "created": -32, "done": -20 },
+    {
+      "n": 9, "t": "Formulario de contacto con derivación por área", "c": "doing", "p": "high", "a": "valentina",
+      "tags": ["Formulario"], "due": 2, "est": 5, "created": -12,
+      "d": "Cada consulta llega al área correcta según el tema elegido: socios, comercial, asistencia técnica o prensa.",
+      "com": [{ "u": "valentina", "at": -1, "b": "Falta que la cooperativa confirme los correos de cada área. Mientras tanto queda todo a la casilla general." }]
+    },
+    {
+      "n": 10, "t": "Cargar 12 noticias históricas", "c": "client", "p": "low", "a": "laura", "e": "news",
+      "tags": ["Contenido"], "est": 4, "created": -10,
+      "com": [{ "u": "laura", "at": -6, "b": "Pedimos las fotos en buena resolución. Quedaron de mandarlas esta semana." }]
+    },
+    { "n": 11, "t": "Capacitación al equipo de comunicación para cargar noticias", "c": "todo", "p": "medium", "a": "laura", "e": "news", "due": 7, "est": 2, "created": -8 },
+    { "n": 12, "t": "Banner de la Expo de otoño", "c": "todo", "p": "medium", "a": "sofia", "e": "news", "tags": ["Diseño"], "due": 10, "est": 3, "created": -3 },
+    { "n": 13, "t": "Política de privacidad y uso de cookies", "c": "client", "p": "medium", "a": "laura", "tags": ["Contenido"], "est": 1, "created": -9 },
+    { "n": 14, "t": "Alta en Google Search Console y Analytics", "c": "todo", "p": "low", "a": "valentina", "tags": ["SEO"], "est": 2, "created": -5 }
+  ]
+}

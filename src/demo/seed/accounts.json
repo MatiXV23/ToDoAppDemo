@@ -1,0 +1,23 @@
+[
+  {
+    "userId": "u_laura",
+    "email": "laura@estudionebula.uy",
+    "password": "demo1234",
+    "role": "Administradora",
+    "description": "Dueña de los proyectos y admin de la app: ve y edita todo."
+  },
+  {
+    "userId": "u_martin",
+    "email": "martin@estudionebula.uy",
+    "password": "demo1234",
+    "role": "Editor",
+    "description": "Desarrollador del equipo: crea, mueve y comenta tareas."
+  },
+  {
+    "userId": "u_andres",
+    "email": "andres.cabrera@lasacacias.com.uy",
+    "password": "demo1234",
+    "role": "Solo lectura",
+    "description": "Cliente: sigue el avance de su proyecto sin poder modificarlo."
+  }
+]

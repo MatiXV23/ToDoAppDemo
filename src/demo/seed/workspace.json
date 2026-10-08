@@ -1,0 +1,40 @@
+{
+  "adminEmails": ["laura@estudionebula.uy"],
+  "access": [
+    { "email": "martin@estudionebula.uy", "status": "approved", "decided": -200 },
+    { "email": "sofia@estudionebula.uy", "status": "approved", "decided": -185 },
+    { "email": "diego@estudionebula.uy", "status": "approved", "decided": -170 },
+    { "email": "valentina@estudionebula.uy", "status": "approved", "decided": -120 },
+    { "email": "andres.cabrera@lasacacias.com.uy", "status": "approved", "decided": -60 },
+    { "email": "lucia@almacendecampo.uy", "status": "approved", "decided": -45 },
+    { "email": "tomas@rutasdelivery.uy", "status": "approved", "decided": -32 },
+    { "email": "gonzalo.rivas@lasacacias.com.uy", "status": "pending", "name": "Gonzalo Rivas", "requested": -0.3 },
+    { "email": "carla.dominguez@almacendecampo.uy", "status": "pending", "name": "Carla Domínguez", "requested": -1.2 },
+    { "email": "federico.rios@estudionebula.uy", "status": "denied", "name": "Federico Ríos", "requested": -150, "decided": -35 }
+  ],
+  "installation": { "login": "estudio-nebula", "users": ["laura"], "created": -150 },
+  "githubRepos": [
+    { "fullName": "estudio-nebula/agenda-acacias-web", "defaultBranch": "main", "private": true },
+    { "fullName": "estudio-nebula/agenda-acacias-api", "defaultBranch": "main", "private": true },
+    { "fullName": "estudio-nebula/almacen-de-campo-tienda", "defaultBranch": "main", "private": true },
+    { "fullName": "estudio-nebula/coop-litoral-sitio", "defaultBranch": "main", "private": false },
+    { "fullName": "estudio-nebula/infra-scripts", "defaultBranch": "main", "private": true },
+    { "fullName": "estudio-nebula/design-system", "defaultBranch": "main", "private": false },
+    { "fullName": "estudio-nebula/landing-estudio", "defaultBranch": "main", "private": false },
+    { "fullName": "estudio-nebula/portal-reportes", "defaultBranch": "develop", "private": true }
+  ],
+  "tokens": [
+    { "user": "laura", "name": "Claude Code · notebook", "external": false, "created": -40, "lastUsed": -0.2, "prefix": "tda_Xk29fQ7b" },
+    { "user": "laura", "name": "Agente Claude (rutina)", "external": false, "created": -21, "lastUsed": -0.4, "prefix": "tda_Ag4nTqL9" },
+    { "user": "laura", "name": "Portal de reportes", "external": true, "created": -25, "lastUsed": -0.3, "prefix": "tda_Pr8mW2cZ" },
+    { "user": "martin", "name": "Claude Code · escritorio", "external": false, "created": -18, "lastUsed": -1, "prefix": "tda_Mt7vB3nH" }
+  ],
+  "notifications": [
+    { "user": "laura", "type": "invitation", "at": -0.6, "actor": "tomas", "project": "RUT" },
+    { "user": "laura", "type": "access_request", "at": -0.3, "data": { "email": "gonzalo.rivas@lasacacias.com.uy", "name": "Gonzalo Rivas", "image": null } },
+    { "user": "laura", "type": "access_request", "at": -1.2, "data": { "email": "carla.dominguez@almacendecampo.uy", "name": "Carla Domínguez", "image": null } },
+    { "user": "laura", "type": "invitation_accepted", "at": -44, "read": true, "actor": "lucia", "project": "TIE" },
+    { "user": "laura", "type": "invitation_accepted", "at": -59, "read": true, "actor": "andres", "project": "AGE" },
+    { "user": "andres", "type": "invitation", "at": -60, "read": true, "actor": "laura", "project": "AGE" }
+  ]
+}
