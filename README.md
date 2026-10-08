@@ -171,13 +171,12 @@ Next.js con tRPC y TanStack Query, interfaz con Tailwind y shadcn/ui, PostgreSQL
 
 ## Contacto
 
-<!-- Completá estos datos antes de publicar. -->
 ¿Querés usarlo en tu equipo o que lo veamos juntos?
 
-- **NOMBRE**
-- ✉️ [CORREO_DE_CONTACTO](mailto:CORREO_DE_CONTACTO)
-- 💬 [WhatsApp](https://wa.me/NUMERO_DE_WHATSAPP)
-- 🌐 [SITIO_WEB](https://SITIO_WEB)
+- **Matías Pérez Frontán**
+- ✉️ [contacto@mperezfrontan.com](mailto:contacto@mperezfrontan.com)
+- 💼 [LinkedIn](https://www.linkedin.com/in/matias-perez-frontan)
+- 🌐 [mperezfrontan.com](https://mperezfrontan.com)
 
 ---
 
